@@ -1,0 +1,50 @@
+package rules.demo5
+
+import twitter4j.Status
+import twitter4j.Place
+import java.text.MessageFormat
+global org.slf4j.Logger logger
+
+declare Status
+    @role( event )
+    @timestamp( createdAt )
+    @expires( 10s )
+end
+
+rule "Filter retweeted messages"
+when
+    $s : Status( retweetCount > 0 ) from entry-point "twitter"
+then
+    entryPoints["retweeted"].insert( $s );
+end
+
+
+rule "Filter non-retweeted messages"
+when
+    $s : Status( retweetCount == 0 ) from entry-point "twitter"
+then
+    entryPoints["non-retweeted"].insert( $s );
+end
+
+
+rule "Dump retweeted"
+when
+    $s : Status( user.screenName matches "[a-g].*" ) from entry-point "retweeted"
+then
+    logger.info( "RT:  [{}] {} @{} - {}",
+                                              $s.getCreatedAt(),
+                                              $s.getRetweetCount(),
+                                              $s.getUser().getScreenName(),
+                                              $s.getText());
+end
+
+rule "Dump non retweeted"
+when
+    $s : Status( user.screenName matches "[h-p].*" ) from entry-point "non-retweeted"
+then
+    logger.info( "NRT: [{}] {} @{} - {}",
+                                              $s.getCreatedAt(),
+                                              $s.getRetweetCount(),
+                                              $s.getUser().getScreenName(),
+                                              $s.getText()) ;
+end

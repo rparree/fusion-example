@@ -1,0 +1,23 @@
+package rules.demo2
+
+import twitter4j.Status
+import twitter4j.Place
+
+global org.slf4j.Logger logger
+
+
+declare Status
+    @role( event )
+    @timestamp( createdAt )
+    @expires( 2s )
+end
+
+rule "Dump tweets from people laughing"
+when
+    $s : Status( text matches ".*lol.*" ) from entry-point "twitter"
+    $p : Place( countryCode == "FR" ) from $s.place
+
+then
+    logger.info("{} - @{} - {} - {}",$s.getCreatedAt(),$s.getUser().getScreenName(),  $s.getPlace().getCountry(), $s.getText());
+end
+

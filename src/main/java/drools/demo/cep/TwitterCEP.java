@@ -29,8 +29,6 @@ import java.io.IOException;
  * TwitterCEP
  */
 public class TwitterCEP {
-    public static final boolean disableLog = true;
-
 
     public static void main(String[] args) throws TwitterException, IOException{
         if( args.length == 0 ) {
@@ -49,7 +47,7 @@ public class TwitterCEP {
             twitterStream.addListener( new StatusAdapter(){
                 @Override
                 public void onStatus(Status status) {
-                    super.onStatus(status);
+                    ep.insert(status);
                 }
             } );
             twitterStream.sample();

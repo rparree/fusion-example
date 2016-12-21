@@ -1,0 +1,21 @@
+package rules.demo1
+
+import twitter4j.Status
+
+global org.slf4j.Logger logger
+
+dialect "mvel"
+
+declare Status
+    @role( event )
+    @timestamp( createdAt )
+    @expires( 2s )
+end
+
+rule "Dump tweets"
+when
+    $s : Status() from entry-point "twitter"
+then
+	logger.info("{} - @{} - {}",$s.getCreatedAt(),$s.getUser().getScreenName(),$s.getText());
+end
+

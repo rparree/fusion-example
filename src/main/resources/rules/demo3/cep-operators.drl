@@ -1,0 +1,24 @@
+package rules.demo3
+
+import twitter4j.Status
+import twitter4j.Place
+
+global org.slf4j.Logger logger
+
+declare Status
+    @role( event )
+    @timestamp( createdAt )
+    //@expires( 6m )
+end
+
+rule "Dump tweets from user conversation"
+when
+    $s1 : Status( $name : user.screenName ) from entry-point "twitter"
+    $s2 : Status( inReplyToScreenName == $name, this after[1ms,2m] $s1 ) from entry-point "twitter"
+then
+
+
+  logger.info("@{} tweeted at {} - {} -> @{} replied at {} {} ",$name,$s1.getCreatedAt(),$s1.getText(),$s2.getUser().getScreenName(),$s2.getCreatedAt(),$s2.getText());
+
+end
+

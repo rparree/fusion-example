@@ -13,8 +13,8 @@
         <ksession name="demo3Session" clockType="realtime" default="true" />
     </kbase>
 
-    <kbase name="demo4" packages="rules.demo4" eventProcessingMode="stream" >
-        <ksession name="demo4Session" clockType="realtime" default="true" />
+    <kbase name="demo4" packages="rules.demo4"  eventProcessingMode="stream"  >
+        <ksession name="demo4Session" clockType="realtime"  default="true" />
     </kbase>
 
     <kbase name="demo5" packages="rules.demo5" eventProcessingMode="stream" >
