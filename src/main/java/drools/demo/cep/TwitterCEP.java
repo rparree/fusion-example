@@ -16,7 +16,11 @@
 
 package drools.demo.cep;
 
+import org.kie.api.KieBase;
 import org.kie.api.KieServices;
+import org.kie.api.builder.Message;
+import org.kie.api.builder.Results;
+import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.EntryPoint;
 import org.slf4j.Logger;
@@ -30,6 +34,8 @@ import java.io.IOException;
  */
 public class TwitterCEP {
 
+    final static Logger logger = LoggerFactory.getLogger(TwitterCEP.class);
+
     public static void main(String[] args) throws TwitterException, IOException{
         if( args.length == 0 ) {
             System.out.println("Please pass the name of the demo: demo1, demo2, demo3, demo4 or demo5");
@@ -37,11 +43,20 @@ public class TwitterCEP {
         }
 
         KieServices kieServices = KieServices.Factory.get();
-        KieSession ksession = kieServices.getKieClasspathContainer().getKieBase(args[0]).newKieSession();
+        KieContainer kc = kieServices.getKieClasspathContainer();
+        Results results = kc.verify();
+        if (results.hasMessages(Message.Level.ERROR)) {
+            results.getMessages(Message.Level.ERROR).forEach(m -> logger.error(m.getText()));
+            System.exit(0);
+        }
+
+        KieBase kieBase = kc.getKieBase(args[0]);
+
+        KieSession ksession = kieBase.newKieSession();
 
         final EntryPoint ep = ksession.getEntryPoint("twitter");
 
-        // Connects to the twitter stream and register the listener 
+        // Connects to the twitter stream and register the listener
         new Thread(() -> {
             TwitterStream twitterStream = new TwitterStreamFactory().getInstance();
             twitterStream.addListener( new StatusAdapter(){
@@ -52,7 +67,7 @@ public class TwitterCEP {
             } );
             twitterStream.sample();
         }).start();
-        
+
         Logger cepLogger = LoggerFactory.getLogger("cep");
         ksession.setGlobal("logger", cepLogger);
         ksession.fireUntilHalt();
