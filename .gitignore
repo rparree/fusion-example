@@ -60,4 +60,4 @@ fabric.properties
 /src/main/resources/twitter4j.properties
 
 
-/target/
+/target/*
