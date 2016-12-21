@@ -2,23 +2,23 @@
 <kmodule
         xmlns="http://jboss.org/kie/6.0.0/kmodule">
     <kbase name="demo1" packages="rules.demo1" eventProcessingMode="stream" >
-        <ksession name="demo1Session" clockType="realtime" default="true" />
+        <ksession name="demo1Session" clockType="realtime" />
     </kbase>
 
     <kbase name="demo2" packages="rules.demo2" eventProcessingMode="stream" >
-        <ksession name="demo2Session" clockType="realtime" default="true" />
+        <ksession name="demo2Session" clockType="realtime" />
     </kbase>
 
     <kbase name="demo3" packages="rules.demo3" eventProcessingMode="stream" >
-        <ksession name="demo3Session" clockType="realtime" default="true" />
+        <ksession name="demo3Session" clockType="realtime" />
     </kbase>
 
     <kbase name="demo4" packages="rules.demo4"  eventProcessingMode="stream"  >
-        <ksession name="demo4Session" clockType="realtime"  default="true" />
+        <ksession name="demo4Session" clockType="realtime"  />
     </kbase>
 
     <kbase name="demo5" packages="rules.demo5" eventProcessingMode="stream" >
-        <ksession name="demo5Session" clockType="realtime" default="true" />
+        <ksession name="demo5Session" clockType="realtime" />
     </kbase>
 
 
