@@ -4,7 +4,6 @@ import twitter4j.Status
 
 global org.slf4j.Logger logger
 
-dialect "mvel"
 
 declare Status
     @role( event )
