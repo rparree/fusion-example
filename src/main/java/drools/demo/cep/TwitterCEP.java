@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.drools.examples.twittercbr;
+package drools.demo.cep;
 
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieSession;
@@ -26,9 +26,9 @@ import twitter4j.*;
 import java.io.IOException;
 
 /**
- * TwitterCBR
+ * TwitterCEP
  */
-public class TwitterCBR {
+public class TwitterCEP {
     public static final boolean disableLog = true;
 
 

@@ -11,3 +11,9 @@ To run pass in the name of package containing the demo:
 - **demo5** - Rules act as a source for events into other entry-points
  
  
+To run (example shown with maven)
+
+```bash
+$ mvn -q compile exec:java -Dexec.args=demo1
+
+```
