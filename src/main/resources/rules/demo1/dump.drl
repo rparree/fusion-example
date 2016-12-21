@@ -13,7 +13,7 @@ end
 
 rule "Dump tweets"
 when
-    $s : Status() from entry-point "twitter"
+    $s : Status(user != null) from entry-point "twitter"
 then
 	logger.info("{} - @{} - {}",$s.getCreatedAt(),$s.getUser().getScreenName(),$s.getText());
 end
